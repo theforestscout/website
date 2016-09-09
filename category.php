@@ -7,7 +7,7 @@
   * @version 1.0.0
   * @link https://github.com/theforestscout/website/ TheForestScout Theme
   * @author Bryan Willis <mail@bryanwillis.me>
-  * @copyright   2016 Bryan Willis
+  * @copyright 2016 Bryan Willis
   * @license MIT License
   */
  
