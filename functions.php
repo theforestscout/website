@@ -89,6 +89,55 @@ function content($limit)
 
 
 
+//* Disable Category Deletion
+add_action( 'delete_term_taxonomy', 'wpse_70758_del_tax', 10, 1 );
+add_action( 'edit_term_taxonomies', 'wpse_70758_del_child_tax', 10, 1 );
+add_filter( 'manage_edit-category_columns', 'wpse_70758_cat_edit_columns' );
+add_filter( 'manage_category_custom_column', 'wpse_70758_cat_custom_columns', 10, 3 );
+$undeletable = array( 
+		'features'
+	,	'in-between-the-lines'
+	, 	'in-hollywood'
+	,	'in-lfhs'
+	, 	'in-music' 
+	,	'in-our-opinion'
+	, 	'in-style' 
+    ,   'in-the-news'
+	);
+function wpse_70758_del_tax( $tt_id )
+{
+    global $undeletable;
+    $term = get_term_by( 'id', $tt_id, 'category' );
+    if( in_array( $term->slug, $undeletable ) ) 
+        wp_die( 'cant delete' );
+}
+function wpse_70758_del_child_tax( $arr_ids )
+{
+    global $undeletable;
+    foreach( $arr_ids as $id )
+    {
+        $term   = get_term_by( 'id', $id, 'category' );
+        $parent = get_term_by( 'id', $term->parent, 'category' );
+        if( in_array( $parent->slug, $undeletable ) ) 
+            wp_die( 'cant delete' );        
+    }
+}
+function wpse_70758_cat_edit_columns( $columns )
+{
+    $columns['tt_id'] = 'ID';   
+    $columns['undeletable'] = 'Undeletable';   
+    return $columns;
+}   
+function wpse_70758_cat_custom_columns( $value, $name, $tt_id )
+{
+    if( 'tt_id' == $name ) 
+        echo $tt_id;
+    global $undeletable;
+    $term = get_term_by( 'id', $tt_id, 'category' );
+    if( 'undeletable' == $name && in_array( $term->slug, $undeletable ) )
+        echo '<span style="color:#f00;font-size:5em;line-height:.5em">&#149;</span>';
+}
+
 //* Remove the edit link
 add_filter ( 'genesis_edit_post_link' , '__return_false' );
 
