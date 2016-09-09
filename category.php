@@ -1,8 +1,15 @@
 <?php
-/**
- * Category Template: FS Categories
- */
- 
+ /**
+  * Category Template: FS Categories
+  * Template Description: The main template that shows the top level categories
+  *
+  * @package TheForestScout
+  * @version 1.0.0
+  * @link https://github.com/theforestscout/website/ TheForestScout Theme
+  * @author Bryan Willis <mail@bryanwillis.me>
+  * @copyright   2016 Bryan Willis
+  * @license MIT License
+  */
  
 function featured_banner() {
 $queried_object = get_queried_object(); 
